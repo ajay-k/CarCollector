@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card">
+  <!-- add this single line below -->
+  <a href="/cars/{{ car.id }}">
+    <div class="card-content">
+      <h2>{{ car.make }}</h2>
+      <p>Model: {{ car.model }}</p>
+      <p>Trim: {{ car.trim }}</p>
+      {% if car.year >= 2019 %}
+        <p>Model Year: {{ car.year }}</p>
+      {% else %}
+        <p>Model Year: New Car</p>
+      {% endif %}
+    </div>
+  <!-- and this following one as well -->
+  </a>
+</div>
+
+{% endblock %}
