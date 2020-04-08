@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db import models
 from .models import Car
+from .forms import MaintenanceForm
 
 
 # Create your views here.
@@ -35,4 +36,18 @@ def cars_index(request):
 
 def cars_detail(request, car_id):
 	car = Car.objects.get(id=car_id)
-	return render(request, 'cars/detail.html', {'car': car})
+
+	maintenance_form = MaintenanceForm()
+
+	return render(request, 'cars/detail.html', {'car': car, 'maintenance_form': maintenance_form})
+
+def add_service(request, car_id):
+	form = MaintenanceForm(request.POST)
+
+	if form.is_valid():
+		new_service = form.save(commit=False)
+		new_service.car_id = car_id
+		new_service.save()
+
+	return redirect('detail', car_id=car_id)
+
